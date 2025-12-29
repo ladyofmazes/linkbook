@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="wasm_exec.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link href="/app.css" type="text/css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/web/css/prism.css">
+    <link href="/web/css/docs.css" type="text/css" rel="stylesheet">
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Verdana, sans-serif;
+            background-color: #f4f4f4;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+    <script src="/web/js/prism.js"></script>
+</head>
+
+<body>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("web/app.wasm"), go.importObject).then(
+            (obj) => {
+                go.run(obj.instance);
+            }
+        );
+
+    </script>
+</body>
+
+</html>
