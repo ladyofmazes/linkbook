@@ -24,8 +24,10 @@ func (h *linkbook) Render() app.UI {
 		Index(
 			app.Div().Class("separator"),
 		).
+		Icon(coffeeSVG).
 		Content(
 			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
+			app.Div().Class("table"),
 		)
 }
 

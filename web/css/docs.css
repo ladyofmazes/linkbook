@@ -442,25 +442,6 @@ strong {
   margin-bottom: 42;
 }
 
-/*------------------------------------------------------------------------------
-** menu
-------------------------------------------------------------------------------*/
-.menu-hamburger-background {
-  background: linear-gradient(#2e343a, rgba(0, 0, 0, 0.9));
-}
-
-.menu .separator:first-of-type {
-  margin-top: 18px;
-}
-
-.menu .separator {
-  margin-top: 30px;
-}
-
-.menu .separator:last-of-type {
-  margin-top: 16px;
-}
-
 /* -----------------------------------------------------------------------------
 // Index
 ------------------------------------------------------------------------------*/
@@ -718,79 +699,6 @@ strong {
 
 .reference .comment {
   color: mediumspringgreen;
-}
-
-/* -----------------------------------------------------------------------------
-// Hamburger Menu
-------------------------------------------------------------------------------*/
-
-.menu {
-  display: none;
-}
-
-/* Hamburger button*/
-.hamburger-button svg {
-  width: 24px;
-  height: 24px;
-  color: black;
-  background: rgb(146, 173, 146);
-  display: block;
-}
-
-@media (max-width: 768px) {
-
-/* Hamburger button - ALWAYS VISIBLE */
-  .hamburger-button {
-    display: block !important;
-    cursor: pointer;
-    padding: 12px;
-    color: black;
-    background: rgb(146, 173, 146);
-    /* Make it obvious */
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 9999;
-    pointer-events: auto !important;
-    /* Ensure it receives clicks */
-    touch-action: manipulation;
-    /* Better touch handling */
-  }
-
-  /* Hide desktop menu by default on mobile */
-  .menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    z-index: 999;
-    overflow-y: auto;
-    background: linear-gradient(#2e343a, rgba(0, 0, 0, 0.9));
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-  }
-
-  /* Show menu when shell has menu-open class */
-  [data-goapp-ui="shell"].menu-open .menu {
-    display: block;
-    transform: translateX(0);
-  }
-
-  /* Backdrop */
-  [data-goapp-ui="shell"].menu-open::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 998;
-  }
-
 }
 
 /*------------------------------------------------------------------------------

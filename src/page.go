@@ -6,9 +6,7 @@ import (
 )
 
 const (
-	headerHeight  = 142
-	adsenseClient = "ca-pub-1013306768105236"
-	adsenseSlot   = "9307554044"
+	headerHeight = 100
 )
 
 type page struct {
@@ -19,9 +17,6 @@ type page struct {
 	Iicon    string
 	Ititle   string
 	Icontent []app.UI
-
-	updateAvailable bool
-	menuOpen        bool // Add this
 }
 
 func newPage() *page {
@@ -48,19 +43,10 @@ func (p *page) Content(v ...app.UI) *page {
 	return p
 }
 
-func (p *page) OnNav(ctx app.Context) {
-	p.updateAvailable = ctx.AppUpdateAvailable()
-
-	ctx.Defer(scrollTo)
-}
-
-func (p *page) OnAppUpdate(ctx app.Context) {
-	p.updateAvailable = ctx.AppUpdateAvailable()
-}
-
 func (p *page) Render() app.UI {
 	shellClass := app.AppendClass("fill", "background")
 	return ui.Shell().
+		Class(shellClass).
 		Index(
 			app.If(len(p.Iindex) != 0, func() app.UI {
 				return ui.Scroll().
@@ -111,7 +97,16 @@ func (p *page) Render() app.UI {
 							app.Range(p.Icontent).Slice(func(i int) app.UI {
 								return p.Icontent[i]
 							}),
-
+							app.Div().Class("separator"),
+							app.Aside().Body(
+								app.Header().
+									ID("report-an-issue").
+									Class("h2").
+									Text("Footnote"),
+								app.P().Body(
+									app.Text("A footnote"),
+								),
+							),
 							app.Div().Class("separator"),
 							app.Aside().Body(
 								app.Header().
@@ -125,17 +120,8 @@ func (p *page) Render() app.UI {
 										Text("🚀 Find me on Github!"),
 								),
 							),
-							app.Div().Class("separator"),
 						),
 					),
 				),
 		)
-}
-
-func scrollTo(ctx app.Context) {
-	id := ctx.Page().URL().Fragment
-	if id == "" {
-		id = "page-top"
-	}
-	ctx.ScrollTo(id)
 }
