@@ -12,11 +12,12 @@ const (
 type page struct {
 	app.Compo
 
-	Iclass   string
-	Iindex   []app.UI
-	Iicon    string
-	Ititle   string
-	Icontent []app.UI
+	Iclass    string
+	Iindex    []app.UI
+	Iicon     string
+	Ititle    string
+	Icontent  []app.UI
+	Ifootnote string
 }
 
 func newPage() *page {
@@ -40,6 +41,11 @@ func (p *page) Title(v string) *page {
 
 func (p *page) Content(v ...app.UI) *page {
 	p.Icontent = app.FilterUIElems(v...)
+	return p
+}
+
+func (p *page) Footnote(v string) *page {
+	p.Ifootnote = v
 	return p
 }
 
@@ -98,15 +104,17 @@ func (p *page) Render() app.UI {
 								return p.Icontent[i]
 							}),
 							app.Div().Class("separator"),
-							app.Aside().Body(
-								app.Header().
-									ID("report-an-issue").
-									Class("h2").
-									Text("Footnote"),
-								app.P().Body(
-									app.Text("A footnote"),
-								),
-							),
+							app.If(len(p.Ifootnote) != 0, func() app.UI {
+								return app.Aside().Body(
+									app.Header().
+										ID("footnote").
+										Class("h2").
+										Text("Footnote"),
+									app.P().Body(
+										app.Text(p.Ifootnote),
+									),
+								)
+							}),
 							app.Div().Class("separator"),
 							app.Aside().Body(
 								app.Header().

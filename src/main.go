@@ -28,7 +28,8 @@ func (h *linkbook) Render() app.UI {
 		Content(
 			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
 			app.Div().Class("table"),
-		)
+		).
+		Footnote("And Tiny Tim Who Could Not Die")
 }
 
 // The main function is the entry point where the app is configured and started.
