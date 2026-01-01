@@ -1,27 +1,38 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 	"github.com/maxence-charriere/go-app/v10/pkg/ui"
-)
-
-const (
-	headerHeight = 100
 )
 
 type page struct {
 	app.Compo
 
-	Iclass    string
-	Iindex    []app.UI
-	Iicon     string
-	Ititle    string
-	Icontent  []app.UI
-	Ifootnote string
+	Iclass          string
+	Iindex          []app.UI
+	Ibutton         string
+	Ibuttonfunction func(ctx app.Context, e app.Event)
+	Iicon           string
+	Ititle          string
+	Icontent        []app.UI
+	Ifootnote       string
 }
 
 func newPage() *page {
 	return &page{}
+}
+
+func (p *page) Score() *page {
+	globalScore.buttonScore = globalScore.buttonScore + 1
+	return p
+}
+
+func (p *page) onButtonClicked(ctx app.Context, e app.Event) {
+	fmt.Println(globalScore.buttonScore)
+	p.Score()
+	fmt.Println(globalScore.buttonScore)
 }
 
 func (p *page) Index(v ...app.UI) *page {
@@ -46,6 +57,12 @@ func (p *page) Content(v ...app.UI) *page {
 
 func (p *page) Footnote(v string) *page {
 	p.Ifootnote = v
+	return p
+}
+
+func (p *page) Button(v string, buttonFunction func(ctx app.Context, e app.Event)) *page {
+	p.Ibutton = v
+	p.Ibuttonfunction = buttonFunction
 	return p
 }
 
@@ -102,6 +119,12 @@ func (p *page) Render() app.UI {
 							app.Div().Class("separator"),
 							app.Range(p.Icontent).Slice(func(i int) app.UI {
 								return p.Icontent[i]
+							}),
+							app.If(len(p.Ibutton) != 0, func() app.UI {
+								return app.Button().
+									Class("button").
+									Text(p.Ibutton).
+									OnClick(p.onButtonClicked)
 							}),
 							app.Div().Class("separator"),
 							app.If(len(p.Ifootnote) != 0, func() app.UI {

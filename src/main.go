@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -28,11 +29,12 @@ func (h *linkbook) Render() app.UI {
 			app.A().Href("https://www.google.com").Text("The beginning"),
 		).
 		Icon(manFaceSVG).
+		Button("Score", newPage().onButtonClicked).
 		Content(
 			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
 			app.Div().Class("table"),
 		).
-		Footnote("And Tiny Tim Who Could Not Die")
+		Footnote(fmt.Sprintf("Score: %d", globalScore.buttonScore))
 }
 
 // The main function is the entry point where the app is configured and started.

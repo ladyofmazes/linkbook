@@ -1,5 +1,15 @@
 package main
 
+type ScoreBoard struct {
+	buttonScore int
+}
+
+var globalScore ScoreBoard
+
+const (
+	headerHeight = 100
+)
+
 const (
 	getMarkdown = "/markdown/get"
 )
