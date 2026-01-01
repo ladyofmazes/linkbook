@@ -23,8 +23,11 @@ func (h *linkbook) Render() app.UI {
 		Title("Entry 1").
 		Index(
 			app.Div().Class("separator"),
+			app.Text("A start\n"),
+			app.Div().Class("separator"),
+			app.A().Href("https://www.google.com").Text("The beginning"),
 		).
-		Icon(coffeeSVG).
+		Icon(manFaceSVG).
 		Content(
 			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
 			app.Div().Class("table"),

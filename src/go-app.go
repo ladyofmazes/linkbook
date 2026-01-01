@@ -25,7 +25,7 @@ func (h *intro) Render() app.UI {
 		Index(
 			app.Div().Class("separator"),
 		).
-		Icon(bellSVG).
+		Icon(womanFaceSVG).
 		Content(
 			newMarkdownDoc().MD(entry2Content), // Use embedded content directly
 		)
