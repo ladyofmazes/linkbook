@@ -124,7 +124,7 @@ func (p *page) Render() app.UI {
 								return app.Button().
 									Class("button").
 									Text(p.Ibutton).
-									OnClick(p.onButtonClicked)
+									OnClick(p.Ibuttonfunction)
 							}),
 							app.Div().Class("separator"),
 							app.If(len(p.Ifootnote) != 0, func() app.UI {
