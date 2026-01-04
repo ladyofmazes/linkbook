@@ -13,6 +13,10 @@ type linkbook struct {
 	app.Compo
 }
 
+type figure struct {
+	app.Compo
+}
+
 // The Render method is where the component appearance is defined. Here, a
 // markdown file is displayed as content.
 //
@@ -20,7 +24,8 @@ type linkbook struct {
 var entry1Content string
 
 func (h *linkbook) Render() app.UI {
-	return newPage().
+	var curPage = newPage()
+	return curPage.
 		Title("Entry 1").
 		Index(
 			app.Div().Class("separator"),
@@ -29,12 +34,19 @@ func (h *linkbook) Render() app.UI {
 			app.A().Href("https://www.google.com").Text("The beginning"),
 		).
 		Icon(manFaceSVG).
-		Button("Score", newPage().onButtonClicked).
 		Content(
 			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
 			app.Div().Class("table"),
 		).
 		Footnote(fmt.Sprintf("Score: %d", globalScore.buttonScore))
+}
+
+func (h *figure) Render() app.UI {
+	var curPage = newFigurePage()
+	return curPage.
+		Figure(
+			"/web/20251208_121710.png",
+		)
 }
 
 // The main function is the entry point where the app is configured and started.
@@ -46,6 +58,7 @@ func main() {
 	// This is done by calling the Route() function,  which tells go-app what
 	// component to display for a given path, on both client and server-side.
 	app.Route("/", func() app.Composer { return &linkbook{} })
+	app.Route("/fig", func() app.Composer { return &figure{} })
 	app.Route("/intro", func() app.Composer { return &intro{} })
 
 	// Once the routes set up, the next thing to do is to either launch the app
