@@ -46,7 +46,7 @@ func (h *figure) Render() app.UI {
 	return curPage.
 		Figure(
 			"/web/20251208_121710.png",
-		)
+		).Caption("Caption")
 }
 
 // The main function is the entry point where the app is configured and started.

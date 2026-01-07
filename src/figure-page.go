@@ -8,12 +8,18 @@ import (
 type figurePage struct {
 	app.Compo
 
-	Iclass  string
-	Ifigure string
+	Iclass   string
+	Ifigure  string
+	Icaption string
 }
 
 func (fp *figurePage) Figure(v string) *figurePage {
 	fp.Ifigure = v
+	return fp
+}
+
+func (fp *figurePage) Caption(v string) *figurePage {
+	fp.Icaption = v
 	return fp
 }
 
@@ -28,7 +34,7 @@ func (fp *figurePage) Render() app.UI {
 		Content(
 			ui.Shell().
 				Content(
-					app.Main().Body(app.Figure().Class("scalable-figure", "center").Body(app.Img().Src(fp.Ifigure))),
+					app.Main().Body(app.Figure().Class("scalable-figure", "center").Body(app.FigCaption().Text(fp.Icaption).Class("text-center").Hidden(false), app.Img().Src(fp.Ifigure))),
 				),
 		)
 
