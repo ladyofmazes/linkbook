@@ -26,7 +26,9 @@ func (fp *figurePage) Caption(v ...string) *figurePage {
 }
 
 func (fp *figurePage) onFigureClicked(ctx app.Context, e app.Event) {
-	figIndex = figIndex + 1
+	if figIndex+1 < len(fp.Icaptions) {
+		figIndex = figIndex + 1
+	}
 }
 
 func newFigurePage() *figurePage {
