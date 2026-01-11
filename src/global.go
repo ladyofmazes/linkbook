@@ -5,6 +5,7 @@ type ScoreBoard struct {
 }
 
 var globalScore ScoreBoard
+var figIndex int
 
 const (
 	headerHeight = 100

@@ -723,11 +723,6 @@ strong {
   /* Optional: Helps with alignment and spacing issues */
 }
 
-.scalable-figure img:hover {
-  transform: scale(1.1);
-  /* Scales the image to 110% of its size */
-}
-
 /*------------------------------------------------------------------------------
 ** Animations
 ------------------------------------------------------------------------------*/

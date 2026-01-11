@@ -38,6 +38,7 @@ func (h *linkbook) Render() app.UI {
 			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
 			app.Div().Class("table"),
 		).
+		Button("Click Me", curPage.onButtonClicked).
 		Footnote(fmt.Sprintf("Score: %d", globalScore.buttonScore))
 }
 
@@ -46,7 +47,7 @@ func (h *figure) Render() app.UI {
 	return curPage.
 		Figure(
 			"/web/20251208_121710.png",
-		).Caption("Caption")
+		).Caption("Caption", "Caption2")
 }
 
 // The main function is the entry point where the app is configured and started.

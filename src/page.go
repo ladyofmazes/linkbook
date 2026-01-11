@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 	"github.com/maxence-charriere/go-app/v10/pkg/ui"
 )
@@ -30,9 +28,7 @@ func (p *page) Score() *page {
 }
 
 func (p *page) onButtonClicked(ctx app.Context, e app.Event) {
-	fmt.Println(globalScore.buttonScore)
 	p.Score()
-	fmt.Println(globalScore.buttonScore)
 }
 
 func (p *page) Index(v ...app.UI) *page {
