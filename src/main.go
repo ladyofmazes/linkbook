@@ -47,7 +47,7 @@ func (h *figure) Render() app.UI {
 	return curPage.
 		Figure(
 			"/web/20251208_121710.png",
-		).Caption("Caption", "Caption2")
+		).Caption("Click Below to Begin", "Caption", "Caption2").Audio("/web/ASongForRoss.wav")
 }
 
 // The main function is the entry point where the app is configured and started.

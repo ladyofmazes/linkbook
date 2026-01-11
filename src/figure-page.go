@@ -12,10 +12,16 @@ type figurePage struct {
 	Ifigure   string
 	Icaption  string
 	Icaptions []string
+	Iaudio    string
 }
 
 func (fp *figurePage) Figure(v string) *figurePage {
 	fp.Ifigure = v
+	return fp
+}
+
+func (fp *figurePage) Audio(v string) *figurePage {
+	fp.Iaudio = v
 	return fp
 }
 
@@ -28,6 +34,17 @@ func (fp *figurePage) Caption(v ...string) *figurePage {
 func (fp *figurePage) onFigureClicked(ctx app.Context, e app.Event) {
 	if figIndex+1 < len(fp.Icaptions) {
 		figIndex = figIndex + 1
+	}
+	if len(fp.Iaudio) != 0 {
+		var myAudio = app.Window().GetElementByID("my-audio")
+		myAudio.Call("play")
+	}
+}
+
+func (fp *figurePage) onFigureDoubleClicked(ctx app.Context, e app.Event) {
+	if len(fp.Iaudio) != 0 {
+		var myAudio = app.Window().GetElementByID("my-audio")
+		myAudio.Call("pause")
 	}
 }
 
@@ -43,10 +60,17 @@ func (fp *figurePage) Render() app.UI {
 			ui.Shell().
 				Content(
 					app.Main().Body(
-						app.Figure().OnClick(fp.onFigureClicked).Class("scalable-figure", "center").Body(
-							app.FigCaption().Text(fp.Icaption).Class("text-center").Hidden(false),
-							app.Img().Src(fp.Ifigure),
-						),
+						app.Figure().
+							OnClick(fp.onFigureClicked).
+							OnDblClick(fp.onFigureDoubleClicked).
+							Class("scalable-figure", "center").
+							Body(
+								app.If(len(fp.Iaudio) != 0, func() app.UI {
+									return app.Audio().Loop(true).Style("display", "none").ID("my-audio").Src(fp.Iaudio)
+								}),
+								app.FigCaption().Text(fp.Icaption).Class("text-center").Hidden(false),
+								app.Img().Src(fp.Ifigure),
+							),
 					),
 				),
 		)
