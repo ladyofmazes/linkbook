@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 	"github.com/maxence-charriere/go-app/v10/pkg/ui"
 )
@@ -9,18 +11,29 @@ type page struct {
 	app.Compo
 
 	Iclass          string
+	Iname           string
 	Iindex          []app.UI
 	Ibutton         string
 	Ibuttonfunction func(ctx app.Context, e app.Event)
 	Iicon           string
-	Ipage1          string
+	Ipage           []string
+	IpageScore      map[string]int
+	IpageVisits     map[string]int
 	Ititle          string
 	Icontent        []app.UI
 	Ifootnote       string
 }
 
 func newPage() *page {
-	return &page{}
+	return &page{
+		IpageScore:  map[string]int{},
+		IpageVisits: map[string]int{},
+	}
+}
+
+func (p *page) Page(v ...string) *page {
+	p.Ipage = v
+	return p
 }
 
 func (p *page) Score() *page {
@@ -63,6 +76,13 @@ func (p *page) Button(v string, buttonFunction func(ctx app.Context, e app.Event
 	return p
 }
 
+func (p *page) OnMount(ctx app.Context) {
+
+	var visits int
+	ctx.SessionStorage().Get(p.Iname+"Visits", &visits)
+	ctx.SessionStorage().Set(p.Iname+"Visits", visits+1)
+}
+
 func (p *page) Render() app.UI {
 	shellClass := app.AppendClass("fill", "background")
 	return ui.Shell().
@@ -79,7 +99,7 @@ func (p *page) Render() app.UI {
 								app.Div().Class("separator"),
 								app.Header().
 									Class("h2").
-									Text("Index"),
+									Text(fmt.Sprintf("Index %d", p.IpageVisits["cookies"])),
 								app.Div().Class("separator"),
 								app.Range(p.Iindex).Slice(func(i int) app.UI {
 									return p.Iindex[i]

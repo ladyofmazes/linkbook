@@ -26,14 +26,22 @@ var entry1Content string
 
 func (h *linkbook) OnMount(ctx app.Context) {
 	h.page = newPage() // Create once
+	h.page.Page("cookies")
 
 	// Load the stored value
-	ctx.Dispatch(func(ctx app.Context) {
-		var value string
-		ctx.SessionStorage().Get("page1", &value)
-		h.page.Ipage1 = value
-		fmt.Println("linkbook OnMount - loaded page1:", value)
-	})
+	for i, val := range h.page.Ipage {
+		ctx.Dispatch(func(ctx app.Context) {
+			var value int
+			ctx.SessionStorage().Get(h.page.Ipage[i], &value)
+
+			h.page.IpageScore[val] = value
+
+			var visits int
+			ctx.SessionStorage().Get(h.page.Ipage[i]+"Visits", &visits)
+
+			h.page.IpageVisits[val] = visits
+		})
+	}
 }
 
 func (h *linkbook) Render() app.UI {
@@ -49,13 +57,14 @@ func (h *linkbook) Render() app.UI {
 			app.Div().Class("separator"),
 			app.A().Href("https://www.google.com").Text("The beginning"),
 		).
+		Page("cookies").
 		Icon(manFaceSVG).
 		Content(
 			newMarkdownDoc().MD(entry1Content),
 			app.Div().Class("table"),
 		).
 		Button("Click Me", h.page.onButtonClicked).
-		Footnote(fmt.Sprintf("Scores: %d %s", globalScore.buttonScore, globalScore.figureScores))
+		Footnote(fmt.Sprintf("Scores: Button %d Figure %d", globalScore.buttonScore, h.page.IpageScore["cookies"]))
 }
 
 func (h *figure) Render() app.UI {

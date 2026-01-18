@@ -5,8 +5,9 @@ type ScoreBoard struct {
 	figureScores map[string]int
 }
 
-var globalScore = ScoreBoard{figureScores: map[string]int{},
-	buttonScore: 0}
+var globalScore = ScoreBoard{
+	figureScores: map[string]int{},
+	buttonScore:  0}
 var figIndex int
 
 const (

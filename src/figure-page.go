@@ -8,16 +8,24 @@ import (
 type figurePage struct {
 	app.Compo
 
-	Iclass    string
-	Iname     string
-	Ifigure   string
-	Icaption  string
-	Icaptions []string
-	Iaudio    string
+	Iclass      string
+	Iname       string
+	Ifigure     string
+	Ipage       []string
+	IpageScore  map[string]int
+	IpageVisits map[string]int
+	Icaption    string
+	Icaptions   []string
+	Iaudio      string
 }
 
 func (fp *figurePage) Name(v string) *figurePage {
 	fp.Iname = v
+	return fp
+}
+
+func (fp *figurePage) Page(v ...string) *figurePage {
+	fp.Ipage = v
 	return fp
 }
 
@@ -51,7 +59,7 @@ func (fp *figurePage) onFigureClicked(ctx app.Context, e app.Event) {
 	} else {
 		globalScore.figureScores[fp.Iname] = 1
 	}
-	ctx.SessionStorage().Set("page1", "true")
+	ctx.SessionStorage().Set(fp.Iname, globalScore.figureScores[fp.Iname])
 	ctx.Update()
 }
 
@@ -63,7 +71,16 @@ func (fp *figurePage) onFigureDoubleClicked(ctx app.Context, e app.Event) {
 }
 
 func newFigurePage() *figurePage {
-	return &figurePage{}
+	return &figurePage{
+		IpageScore:  map[string]int{},
+		IpageVisits: map[string]int{},
+	}
+}
+
+func (fp *figurePage) OnMount(ctx app.Context) {
+	var visits int
+	ctx.SessionStorage().Get(fp.Iname+"Visits", &visits)
+	ctx.SessionStorage().Set(fp.Iname+"Visits", visits+1)
 }
 
 func (fp *figurePage) Render() app.UI {
