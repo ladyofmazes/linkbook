@@ -11,6 +11,7 @@ import (
 
 type linkbook struct {
 	app.Compo
+	page *page
 }
 
 type figure struct {
@@ -23,9 +24,24 @@ type figure struct {
 //go:embed documents/entry1.md
 var entry1Content string
 
+func (h *linkbook) OnMount(ctx app.Context) {
+	h.page = newPage() // Create once
+
+	// Load the stored value
+	ctx.Dispatch(func(ctx app.Context) {
+		var value string
+		ctx.SessionStorage().Get("page1", &value)
+		h.page.Ipage1 = value
+		fmt.Println("linkbook OnMount - loaded page1:", value)
+	})
+}
+
 func (h *linkbook) Render() app.UI {
-	var curPage = newPage()
-	return curPage.
+	if h.page == nil {
+		h.page = newPage() // Fallback
+	}
+
+	return h.page.
 		Title("Entry 1").
 		Index(
 			app.Div().Class("separator"),
@@ -35,16 +51,17 @@ func (h *linkbook) Render() app.UI {
 		).
 		Icon(manFaceSVG).
 		Content(
-			newMarkdownDoc().MD(entry1Content), // Use embedded content directly
+			newMarkdownDoc().MD(entry1Content),
 			app.Div().Class("table"),
 		).
-		Button("Click Me", curPage.onButtonClicked).
-		Footnote(fmt.Sprintf("Score: %d", globalScore.buttonScore))
+		Button("Click Me", h.page.onButtonClicked).
+		Footnote(fmt.Sprintf("Scores: %d %s", globalScore.buttonScore, globalScore.figureScores))
 }
 
 func (h *figure) Render() app.UI {
 	var curPage = newFigurePage()
 	return curPage.
+		Name("cookies").
 		Figure(
 			"/web/20251208_121710.png",
 		).Caption("Click Below to Begin", "Caption", "Caption2").Audio("/web/ASongForRoss.wav")

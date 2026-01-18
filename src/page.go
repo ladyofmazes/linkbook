@@ -13,6 +13,7 @@ type page struct {
 	Ibutton         string
 	Ibuttonfunction func(ctx app.Context, e app.Event)
 	Iicon           string
+	Ipage1          string
 	Ititle          string
 	Icontent        []app.UI
 	Ifootnote       string

@@ -1,10 +1,12 @@
 package main
 
 type ScoreBoard struct {
-	buttonScore int
+	buttonScore  int
+	figureScores map[string]int
 }
 
-var globalScore ScoreBoard
+var globalScore = ScoreBoard{figureScores: map[string]int{},
+	buttonScore: 0}
 var figIndex int
 
 const (

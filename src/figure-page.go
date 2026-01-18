@@ -9,10 +9,16 @@ type figurePage struct {
 	app.Compo
 
 	Iclass    string
+	Iname     string
 	Ifigure   string
 	Icaption  string
 	Icaptions []string
 	Iaudio    string
+}
+
+func (fp *figurePage) Name(v string) *figurePage {
+	fp.Iname = v
+	return fp
 }
 
 func (fp *figurePage) Figure(v string) *figurePage {
@@ -39,6 +45,14 @@ func (fp *figurePage) onFigureClicked(ctx app.Context, e app.Event) {
 		var myAudio = app.Window().GetElementByID("my-audio")
 		myAudio.Call("play")
 	}
+	_, ok := globalScore.figureScores[fp.Iname]
+	if ok {
+		globalScore.figureScores[fp.Iname] = globalScore.figureScores[fp.Iname] + 1
+	} else {
+		globalScore.figureScores[fp.Iname] = 1
+	}
+	ctx.SessionStorage().Set("page1", "true")
+	ctx.Update()
 }
 
 func (fp *figurePage) onFigureDoubleClicked(ctx app.Context, e app.Event) {
