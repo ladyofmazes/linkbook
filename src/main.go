@@ -73,7 +73,8 @@ func (h *figure) Render() app.UI {
 		Name("cookies").
 		Figure(
 			"/web/20251208_121710.png",
-		).Caption("Click Below to Begin", "Caption", "Caption2").Audio("/web/ASongForRoss.wav")
+		).Caption(
+		"Click Below to Begin", "Caption", "Caption2").Audio("/web/ASongForRoss.wav").Links("", "", "/")
 }
 
 // The main function is the entry point where the app is configured and started.

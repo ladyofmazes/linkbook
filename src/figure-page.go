@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strings"
+
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 	"github.com/maxence-charriere/go-app/v10/pkg/ui"
 )
@@ -15,6 +17,8 @@ type figurePage struct {
 	IpageScore  map[string]int
 	IpageVisits map[string]int
 	Icaption    string
+	Ilinks      []string
+	Ilink       string
 	Icaptions   []string
 	Iaudio      string
 }
@@ -42,6 +46,12 @@ func (fp *figurePage) Audio(v string) *figurePage {
 func (fp *figurePage) Caption(v ...string) *figurePage {
 	fp.Icaptions = v
 	fp.Icaption = fp.Icaptions[figIndex]
+	return fp
+}
+
+func (fp *figurePage) Links(v ...string) *figurePage {
+	fp.Ilinks = v
+	fp.Ilink = fp.Ilinks[figIndex]
 	return fp
 }
 
@@ -99,7 +109,26 @@ func (fp *figurePage) Render() app.UI {
 								app.If(len(fp.Iaudio) != 0, func() app.UI {
 									return app.Audio().Loop(true).Style("display", "none").ID("my-audio").Src(fp.Iaudio)
 								}),
-								app.FigCaption().Text(fp.Icaption).Class("text-center").Hidden(false),
+								app.If(fp.Ilink != "", func() app.UI {
+									isExternal := strings.HasPrefix(fp.Ilink, "https://")
+
+									return app.FigCaption().
+										Text(fp.Icaption).
+										Class("link-center").
+										OnClick(func(ctx app.Context, e app.Event) {
+											e.PreventDefault()
+											e.StopImmediatePropagation()
+
+											if isExternal {
+												app.Window().Get("location").Set("href", fp.Ilink)
+											} else {
+												ctx.Navigate(fp.Ilink)
+											}
+										})
+								}),
+								app.If(fp.Ilink == "", func() app.UI {
+									return app.FigCaption().Text(fp.Icaption).Class("text-center").Hidden(false)
+								}),
 								app.Img().Src(fp.Ifigure),
 							),
 					),

@@ -325,6 +325,11 @@ strong {
 
 }
 
+.text-center-url {
+  margin-left: auto;
+  text-align: center;
+}
+
 .dim {
   color: dimgrey;
 }
@@ -480,7 +485,7 @@ strong {
   display: block;
   cursor: pointer;
   transition: 0.2s all;
-  color: currentColor;
+  color: deepskyblue;
   text-transform: uppercase;
 }
 
@@ -490,7 +495,26 @@ strong {
 }
 
 .link:active {
+  color: purple;
+  transform: scale(0.98);
+}
+
+.link-center {
+  margin-left:-325px;
+  display: block;
+  cursor: pointer;
+  transition: 0.2s all;
+  text-align: center;
   color: deepskyblue;
+}
+
+.link-center:hover {
+  color: deepskyblue;
+  transform: scale(1.2);
+}
+
+.link-center:active {
+  color: purple;
   transform: scale(0.98);
 }
 
