@@ -110,7 +110,7 @@ func (fp *FigurePage) Render() app.UI {
 									return app.Audio().Loop(true).Style("display", "none").ID("my-audio").Src(fp.Iaudio)
 								}),
 								app.If(fp.Ilink != "", func() app.UI {
-									isExternal := strings.HasPrefix(fp.Ilink, "https://")
+									isExternal := strings.HasPrefix(fp.Ilink, "https://") || strings.HasPrefix(fp.Ilink, "http://")
 
 									return app.FigCaption().
 										Text(fp.Icaption).
