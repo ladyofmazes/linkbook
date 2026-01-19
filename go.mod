@@ -1,4 +1,4 @@
-module blog-2qu.pages.dev/linkbook
+module github.com/ladyofmazes/linkbook
 
 go 1.25.1
 
