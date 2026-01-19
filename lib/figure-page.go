@@ -1,6 +1,7 @@
 package lbook
 
 import (
+	"net/url"
 	"strings"
 
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
@@ -122,7 +123,8 @@ func (fp *FigurePage) Render() app.UI {
 											if isExternal {
 												app.Window().Get("location").Set("href", fp.Ilink)
 											} else {
-												ctx.Navigate(fp.Ilink)
+												u, _ := url.Parse(fp.Ilink)
+												app.Window().Get("location").Set("href", u.String())
 											}
 										})
 								}),
