@@ -7,7 +7,7 @@ import (
 	"github.com/maxence-charriere/go-app/v10/pkg/ui"
 )
 
-type figurePage struct {
+type FigurePage struct {
 	app.Compo
 
 	Iclass      string
@@ -23,39 +23,39 @@ type figurePage struct {
 	Iaudio      string
 }
 
-func (fp *figurePage) Name(v string) *figurePage {
+func (fp *FigurePage) Name(v string) *FigurePage {
 	fp.Iname = v
 	return fp
 }
 
-func (fp *figurePage) Page(v ...string) *figurePage {
+func (fp *FigurePage) Page(v ...string) *FigurePage {
 	fp.Ipage = v
 	return fp
 }
 
-func (fp *figurePage) Figure(v string) *figurePage {
+func (fp *FigurePage) Figure(v string) *FigurePage {
 	fp.Ifigure = v
 	return fp
 }
 
-func (fp *figurePage) Audio(v string) *figurePage {
+func (fp *FigurePage) Audio(v string) *FigurePage {
 	fp.Iaudio = v
 	return fp
 }
 
-func (fp *figurePage) Caption(v ...string) *figurePage {
+func (fp *FigurePage) Caption(v ...string) *FigurePage {
 	fp.Icaptions = v
 	fp.Icaption = fp.Icaptions[figIndex]
 	return fp
 }
 
-func (fp *figurePage) Links(v ...string) *figurePage {
+func (fp *FigurePage) Links(v ...string) *FigurePage {
 	fp.Ilinks = v
 	fp.Ilink = fp.Ilinks[figIndex]
 	return fp
 }
 
-func (fp *figurePage) onFigureClicked(ctx app.Context, e app.Event) {
+func (fp *FigurePage) onFigureClicked(ctx app.Context, e app.Event) {
 	if figIndex+1 < len(fp.Icaptions) {
 		figIndex = figIndex + 1
 	}
@@ -73,27 +73,27 @@ func (fp *figurePage) onFigureClicked(ctx app.Context, e app.Event) {
 	ctx.Update()
 }
 
-func (fp *figurePage) OnFigureDoubleClicked(ctx app.Context, e app.Event) {
+func (fp *FigurePage) OnFigureDoubleClicked(ctx app.Context, e app.Event) {
 	if len(fp.Iaudio) != 0 {
 		var myAudio = app.Window().GetElementByID("my-audio")
 		myAudio.Call("pause")
 	}
 }
 
-func NewFigurePage() *figurePage {
-	return &figurePage{
+func NewFigurePage() *FigurePage {
+	return &FigurePage{
 		IpageScore:  map[string]int{},
 		IpageVisits: map[string]int{},
 	}
 }
 
-func (fp *figurePage) OnMount(ctx app.Context) {
+func (fp *FigurePage) OnMount(ctx app.Context) {
 	var visits int
 	ctx.SessionStorage().Get(fp.Iname+"Visits", &visits)
 	ctx.SessionStorage().Set(fp.Iname+"Visits", visits+1)
 }
 
-func (fp *figurePage) Render() app.UI {
+func (fp *FigurePage) Render() app.UI {
 	shellClass := app.AppendClass("fill", "background", "center")
 	return ui.Shell().
 		Class(shellClass).
