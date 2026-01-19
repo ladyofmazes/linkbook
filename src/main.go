@@ -6,12 +6,13 @@ import (
 	"log"
 	"net/http"
 
+	lbook "github.com/ladyofmazes/linkbook/lib"
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 )
 
 type linkbook struct {
 	app.Compo
-	page *page
+	page *lbook.Page
 }
 
 type figure struct {
@@ -25,7 +26,7 @@ type figure struct {
 var entry1Content string
 
 func (h *linkbook) OnMount(ctx app.Context) {
-	h.page = newPage() // Create once
+	h.page = lbook.NewPage() // Create once
 	h.page.Page("cookies")
 
 	// Load the stored value
@@ -46,7 +47,7 @@ func (h *linkbook) OnMount(ctx app.Context) {
 
 func (h *linkbook) Render() app.UI {
 	if h.page == nil {
-		h.page = newPage() // Fallback
+		h.page = lbook.NewPage() // Fallback
 	}
 
 	return h.page.
@@ -58,17 +59,17 @@ func (h *linkbook) Render() app.UI {
 			app.A().Href("https://www.google.com").Text("The beginning"),
 		).
 		Page("cookies").
-		Icon(manFaceSVG).
+		Icon(lbook.ManFaceSVG).
 		Content(
-			newMarkdownDoc().MD(entry1Content),
+			lbook.NewMarkdownDoc().MD(entry1Content),
 			app.Div().Class("table"),
 		).
-		Button("Click Me", h.page.onButtonClicked).
-		Footnote(fmt.Sprintf("Scores: Button %d Figure %d", globalScore.buttonScore, h.page.IpageScore["cookies"]))
+		Button("Click Me", h.page.OnButtonClicked).
+		Footnote(fmt.Sprintf("Scores: Button %d Figure %d", lbook.GlobalScore.ButtonScore, h.page.IpageScore["cookies"]))
 }
 
 func (h *figure) Render() app.UI {
-	var curPage = newFigurePage()
+	var curPage = lbook.NewFigurePage()
 	return curPage.
 		Name("cookies").
 		Figure(

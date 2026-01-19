@@ -3,6 +3,7 @@ package main
 import (
 	_ "embed"
 
+	lbook "github.com/ladyofmazes/linkbook/lib"
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 )
 
@@ -20,13 +21,13 @@ type intro struct {
 var entry2Content string
 
 func (h *intro) Render() app.UI {
-	return newPage().
+	return lbook.NewPage().
 		Title("Entry 2").
 		Index(
 			app.Div().Class("separator"),
 		).
-		Icon(womanFaceSVG).
+		Icon(lbook.WomanFaceSVG).
 		Content(
-			newMarkdownDoc().MD(entry2Content), // Use embedded content directly
+			lbook.NewMarkdownDoc().MD(entry2Content), // Use embedded content directly
 		)
 }
