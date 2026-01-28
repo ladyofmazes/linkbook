@@ -330,6 +330,18 @@ strong {
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .center {
+    padding-left: 0;
+    margin-left: 0;
+  }
+  
+  .text-center {
+    padding-left: 0;
+    width: 100%;
+  }
+}
+
 .dim {
   color: dimgrey;
 }
@@ -516,6 +528,17 @@ strong {
 .link-center:active {
   color: purple;
   transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .link-center {
+    margin-left: 0;
+    display: block;
+    cursor: pointer;
+    transition: 0.2s all;
+    text-align: center;
+    color: deepskyblue;
+  }
 }
 
 .link-update {
